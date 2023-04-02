@@ -79,6 +79,13 @@ def debug(msg):
             reset=color(colorama.Style.RESET_ALL),
             blue=color(colorama.Fore.BLUE),
             bold=color(colorama.Style.BRIGHT)))
+        
+def say(msg):
+    sys.stderr.write(u'{blue}{bold}GPT says:{reset} {msg}\n'.format(
+        msg=msg,
+        reset=color(colorama.Style.RESET_ALL),
+        blue=color(colorama.Fore.BLUE),
+        bold=color(colorama.Style.BRIGHT)))
 
 
 @contextmanager

@@ -86,7 +86,7 @@ class Command(object):
 class Rule(object):
     """Rule for fixing commands."""
 
-    def __init__(self, name, match, get_new_command,
+    def __init__(self, name, match, get_new_command, get_output,
                  enabled_by_default, side_effect,
                  priority, requires_output):
         """Initializes rule with given fields.
@@ -94,6 +94,7 @@ class Rule(object):
         :type name: basestring
         :type match: (Command) -> bool
         :type get_new_command: (Command) -> (basestring | [basestring])
+        :type get_output: (Command) -> (basestring)
         :type enabled_by_default: boolean
         :type side_effect: (Command, basestring) -> None
         :type priority: int
@@ -103,6 +104,7 @@ class Rule(object):
         self.name = name
         self.match = match
         self.get_new_command = get_new_command
+        self.get_output = get_output
         self.enabled_by_default = enabled_by_default
         self.side_effect = side_effect
         self.priority = priority
@@ -120,10 +122,10 @@ class Rule(object):
             return False
 
     def __repr__(self):
-        return 'Rule(name={}, match={}, get_new_command={}, ' \
+        return 'Rule(name={}, match={}, get_new_command={}, get_output={}' \
                'enabled_by_default={}, side_effect={}, ' \
                'priority={}, requires_output={})'.format(
-                   self.name, self.match, self.get_new_command,
+                   self.name, self.match, self.get_new_command, self.get_output,
                    self.enabled_by_default, self.side_effect,
                    self.priority, self.requires_output)
 
@@ -148,6 +150,7 @@ class Rule(object):
         priority = getattr(rule_module, 'priority', DEFAULT_PRIORITY)
         return cls(name, rule_module.match,
                    rule_module.get_new_command,
+                   rule_module.get_output,
                    getattr(rule_module, 'enabled_by_default', True),
                    getattr(rule_module, 'side_effect', None),
                    settings.priority.get(name, priority),

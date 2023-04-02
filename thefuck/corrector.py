@@ -90,3 +90,9 @@ def get_corrected_commands(command):
         if rule.is_match(command)
         for corrected in rule.get_corrected_commands(command))
     return organize_commands(corrected_commands)
+
+def get_output(command):
+    """Returns output of (currently) a single rule
+
+    """
+    return get_rules()[0].get_output(command)
